@@ -16,12 +16,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public Usuario register(@RequestBody Usuario usuario) {
+        usuario.setRol(Usuario.Rol.Cliente); // fuerza el rol a cliente
         return usuarioService.register(usuario);
     }
 
     @PostMapping("/login")
     public Usuario login(@RequestBody LoginRequest request) {
-        // CORRECTO: Pasamos el email del request al método de login.
         return usuarioService.login(request.getEmail(), request.getPassword());
     }
 
@@ -32,7 +32,6 @@ public class AuthController {
 
     @Data
     public static class LoginRequest {
-        // CORRECTO: Cambiado de "mail" a "email" para consistencia.
         private String email;
         private String password;
     }
