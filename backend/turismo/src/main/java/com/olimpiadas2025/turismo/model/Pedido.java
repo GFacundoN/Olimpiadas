@@ -2,6 +2,7 @@ package com.olimpiadas2025.turismo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,11 +15,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idPaquete")
     private Paquete paquete;
 
@@ -26,6 +27,9 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalFinal;
 
     public enum EstadoPedido {
         Completado,
