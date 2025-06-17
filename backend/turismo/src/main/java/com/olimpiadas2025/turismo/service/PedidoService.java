@@ -22,6 +22,7 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final PaqueteRepository paqueteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final MailService mailService;
 
     public List<Paquete> listarPaquetes() {
         return paqueteRepository.findAll();
@@ -81,6 +82,13 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
         pedido.setEstado(Pedido.EstadoPedido.Completado);
+
+        mailService.enviarConfirmacionPedido(
+                pedido.getUsuario().getEmail(),
+                pedido.getUsuario().getNombres(),
+                pedido
+        );
+
         return pedido;
     }
 
@@ -89,6 +97,13 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
         pedido.setEstado(Pedido.EstadoPedido.Anulado);
+
+        mailService.enviarAnulacionPedido(
+                pedido.getUsuario().getEmail(),
+                pedido.getUsuario().getNombres(),
+                pedido
+        );
+
         return pedido;
     }
 }
