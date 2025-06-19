@@ -1,6 +1,7 @@
 package com.olimpiadas2025.turismo.service;
 
 import com.olimpiadas2025.turismo.dto.PedidoDTO;
+import com.olimpiadas2025.turismo.exception.AplicacionException;
 import com.olimpiadas2025.turismo.model.Paquete;
 import com.olimpiadas2025.turismo.model.Pedido;
 import com.olimpiadas2025.turismo.model.Usuario;
@@ -10,6 +11,7 @@ import com.olimpiadas2025.turismo.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,11 +30,12 @@ public class PedidoService {
         return paqueteRepository.findAll();
     }
 
+    @Transactional
     public Pedido crearPedido(Integer idPaquete, Integer idUsuario, BigDecimal totalFinal) {
         Paquete paquete = paqueteRepository.findById(idPaquete)
-                .orElseThrow(() -> new RuntimeException("Paquete no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el paquete especificado."));
         Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el usuario especificado."));
 
         Pedido pedido = Pedido.builder()
                 .paquete(paquete)
@@ -42,12 +45,16 @@ public class PedidoService {
                 .totalFinal(totalFinal)
                 .build();
 
-        return pedidoRepository.save(pedido);
+        Pedido pedidoGuardado = pedidoRepository.save(pedido);
+
+        mailService.enviarNotificacionNuevoPedido(pedidoGuardado);
+
+        return pedidoGuardado;
     }
 
     public List<PedidoDTO> verPedidosDeUsuario(Integer idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el usuario especificado."));
         return pedidoRepository.findByUsuario(usuario)
                 .stream()
                 .map(PedidoDTO::fromEntity)
@@ -57,19 +64,19 @@ public class PedidoService {
     @Transactional
     public void eliminarPedido(Integer id) {
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el pedido solicitado."));
         if (pedido.getEstado() == Pedido.EstadoPedido.Pendiente) {
             pedidoRepository.delete(pedido);
         } else {
-            throw new RuntimeException("Solo se pueden eliminar pedidos pendientes");
+            throw new AplicacionException("Solo se pueden eliminar los pedidos que están pendientes.");
         }
     }
 
     public List<PedidoDTO> listarTodosLosPedidosDTO(Integer idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el usuario especificado."));
         if (usuario.getRol() != Usuario.Rol.Jefe_Ventas) {
-            throw new RuntimeException("No autorizado: solo el Jefe de Ventas puede acceder");
+            throw new AplicacionException("Acceso denegado: solo el Jefe de Ventas puede realizar esta operación.");
         }
         return pedidoRepository.findAll()
                 .stream()
@@ -80,7 +87,7 @@ public class PedidoService {
     @Transactional
     public Pedido entregarPedido(Integer id) {
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el pedido solicitado."));
         pedido.setEstado(Pedido.EstadoPedido.Completado);
 
         mailService.enviarConfirmacionPedido(
@@ -95,7 +102,7 @@ public class PedidoService {
     @Transactional
     public Pedido anularPedido(Integer id) {
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+                .orElseThrow(() -> new AplicacionException("No se encontró el pedido solicitado."));
         pedido.setEstado(Pedido.EstadoPedido.Anulado);
 
         mailService.enviarAnulacionPedido(
