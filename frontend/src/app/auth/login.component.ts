@@ -1,25 +1,37 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { UserService } from '../services/user.service';
-import { RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  imports: [RouterLink],
-  template: `
-    <h3 class="text-xl">Iniciar sesión como:</h3> <!-- temporal para desarrollo -->
-    <button class="rounded-2xl p-3 cursor-pointer border font-bold text-white bg-blue-500" routerLink="" (click)="userService.logAsUser()">Usuario regular</button>
-    <button class="rounded-2xl p-3 cursor-pointer border font-bold text-white bg-orange-500" routerLink="" (click)="userService.logAsJefe()">Jefe de venta</button>
-    
-    <form class="[&>input]:border">
-      <input type="text" name="username" id="username" placeholder="username">
-      <input type="password" name="password" id="password" placeholder="password">
-      <input type="submit" value="Iniciar sesión">
-    </form>
-  `,
-  styles: ``
+    selector: 'app-login',
+    standalone: true,
+    imports: [RouterModule, FormsModule, CommonModule],
+    templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  userService = inject(UserService);
+    email = '';
+    password = '';
+    errorMessage: string | null = null;
 
-  
+    constructor(
+        private userService: UserService,
+        private authService: AuthService,
+        private router: Router
+    ) {}
+
+    onSubmit() {
+        this.authService.login({ email: this.email, password: this.password }).subscribe({
+            next: (res) => {
+                this.userService.login(res);
+                this.router.navigate(['/']);
+            },
+            error: (err) => {
+                this.errorMessage = err?.message ?? 'Error desconocido';
+            }
+        });
+    }
 }

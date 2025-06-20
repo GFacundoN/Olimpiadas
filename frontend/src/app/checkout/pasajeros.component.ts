@@ -1,32 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-pasajeros',
-  imports: [RouterLink],
-  template: `
-    <h4>Datos de los pasajeros</h4> <!-- la app tiene que recibir la cantidad de pasajeros y pedirlos con un @for -->
-
-    <form class="flex flex-col gap-2 [&>input]:border [&>select]:border [&>input]:rounded [&>select]:rounded">
-      <input type="text" name="nombre" id="nombre" placeholder="Nombre">
-      <input type="text" name="apellido" id="apellido" placeholder="Apellido">
-
-      <label>Tipo y N° de documento</label>
-      <select name="tipo" id="tipo">
-        <option value="dni">DNI</option>
-        <option value="pasaporte">Pasaporte</option>
-      </select>
-
-      <label for="residencia">Residencia</label>
-      <select name="residencia" id="residencia"></select>
-      <label for="nacionalidad">Nacionalidad</label>
-      <select name="nacionalidad" id="nacionalidad"></select>
-    </form>
-
-    <button class="rounded-2xl p-3 cursor-pointer border font-bold text-black bg-white" routerLink="../pago">Continuar</button>
-  `,
-  styles: ``
+    selector: 'app-pasajeros',
+    imports: [RouterLink, FormsModule, CommonModule],
+    templateUrl: 'pasajeros.component.html',
+    styles: ``
 })
 export class PasajerosComponent {
+    constructor(private router: Router) {}
 
+    guardarPasajero(form: NgForm): void {
+        if (form.valid) {
+            const pasajero = {
+                nombre: form.value.nombre,
+                apellido: form.value.apellido,
+                tipoDocumento: form.value.tipo,
+                documento: form.value.documento,
+                residencia: form.value.residencia,
+                nacionalidad: form.value.nacionalidad
+            };
+
+            localStorage.setItem('pasajero', JSON.stringify(pasajero));
+            this.router.navigate(['/checkout/pago']);
+        }
+    }
 }

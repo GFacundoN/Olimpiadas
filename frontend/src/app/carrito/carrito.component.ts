@@ -9,19 +9,7 @@ import { CheckoutService } from '../services/checkout.service';
 @Component({
   selector: 'app-carrito',
   imports: [ItemComponent, CurrencyPipe, RouterLink],
-  template: `
-    @if (paquetes.size != 0) {
-      <section class="flex flex-col gap-5">
-        @for (paquete of paquetes; track $index) {
-          <app-item [id]="paquete.id" [nombre]="paquete.nombre" [precio]="paquete.precio" (nuevoTotal)="actualizarTotal(paquete.precio)" />
-        }
-      </section>
-      <h3 class="font-bold text-2xl">Total a pagar: {{ total | currency }}</h3>
-      <button class="rounded-2xl p-3 w-full cursor-pointer border font-bold text-black bg-white" routerLink="../checkout" (click)="checkout.getPaquetes(paquetes)">Comprar ahora</button>
-    } @else {
-      <i>no hay items para mostrar</i>
-    }
-  `,
+  templateUrl: './carrito.component.html',
   styles: ``
 })
 export class CarritoComponent implements OnInit {

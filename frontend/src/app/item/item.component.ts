@@ -7,11 +7,24 @@ import { RouterLink } from '@angular/router';
   selector: 'app-item',
   imports: [CurrencyPipe, RouterLink],
   template: `
-    <section class="border p-5 flex flex-row rounded justify-between">
-      <h4 class="text-xl font-bold cursor-pointer" routerLink="../catalogo/{{ id }}">{{ nombre }}</h4>
-      <b class="text-green-700">{{ precio | currency }}</b>
-      <button class="font-bold uppercase cursor-pointer text-red-500" (click)="updateTotal()">Eliminar</button>
-    </section>
+<section class="bg-gray-50 p-4 flex items-center justify-between gap-4 rounded-xl shadow-md">
+    <h4
+        class="text-base sm:text-lg font-semibold text-black cursor-pointer hover:underline"
+        routerLink="../catalogo/{{ id }}"
+    >
+        {{ nombre }}
+    </h4>
+
+    <b class="text-green-700 text-sm sm:text-base">{{ precio | currency }}</b>
+
+    <button
+        class="text-red-500 font-semibold uppercase text-sm sm:text-base hover:underline transition cursor-pointer"
+        (click)="updateTotal()"
+    >
+        Eliminar
+    </button>
+</section>
+
   `,
   styles: ``
 })

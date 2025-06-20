@@ -1,0 +1,26 @@
+@if (paquete) {
+    <h1 class="text-3xl font-bold">{{ paquete.nombre }}</h1>
+    <ul>
+        <li>Origen: {{ paquete.origen }}</li>
+        <li>Destino: {{ paquete.destino }}</li>
+    </ul>
+    <h5 class="font-semibold text-green-700">Precio: {{ paquete.precio | currency }}</h5>
+
+    <button #btnAgregar
+        class="rounded-2xl p-3 cursor-pointer border font-bold text-white bg-black"
+        (click)="agregarAlCarrito(paquete)">
+        Agregar al carrito
+    </button>
+
+    <button
+        class="rounded-2xl p-3 cursor-pointer border font-bold text-black bg-white"
+        (click)="comprarAhora(paquete)">
+        Comprar ahora
+    </button>
+
+    @defer (on interaction(btnAgregar)) {
+        <b class="font-bold text-green-700 uppercase">agregado al carrito!</b>
+    }
+} @else {
+    <b class="text-3xl">cargando info...</b>
+}

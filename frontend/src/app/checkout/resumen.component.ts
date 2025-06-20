@@ -1,32 +1,77 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Paquete } from '../models/paquete.model';
-import { CheckoutService } from '../services/checkout.service';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-resumen',
-  imports: [CurrencyPipe],
-  template: `
-    @if (paquete) { <!-- en compra individual muestra uno solo -->
-      <p>{{ paquete.nombre }}, {{ paquete.precio | currency }}</p>
-    } @else if (paquetes) {
-      <!-- de caso que haya varios, se ejecuta el for -->
-      @for (paquete of paquetes; track $index) {
-        <p>{{ paquete.nombre }}, {{ paquete.precio | currency }}</p>
-      }
-    }
-    <button class="rounded-2xl p-3 cursor-pointer border font-bold text-black bg-white" routerLink="pago">Confirmar compra</button>
-  `,
-  styles: ``
+    selector: 'app-resumen',
+    templateUrl: 'resumen.component.html',
+    standalone: true,
+    imports: [CommonModule]
 })
 export class ResumenComponent implements OnInit {
-  checkoutService = inject(CheckoutService);
+    paquetes: { nombre: string; precio: number }[] = [];
+    total: number = 0;
 
-  paquetes!: Set<Paquete> | undefined;
-  paquete!: Paquete | undefined;
+    pasajero: {
+        nombre: string;
+        apellido: string;
+        tipoDocumento: string;
+        documento: string;
+        residencia: string;
+        nacionalidad: string;
+    } = {
+        nombre: '',
+        apellido: '',
+        tipoDocumento: '',
+        documento: '',
+        residencia: '',
+        nacionalidad: '',
+    };
 
-  ngOnInit(): void {
-    this.paquete = this.checkoutService.showPaquete();
-    this.paquetes = this.checkoutService.showPaquetes();
-  }
+    metodoPago: string = '';
+
+    // Inyectar Router acá:
+    constructor(private router: Router) {}
+
+    ngOnInit(): void {
+        const paquetesGuardados = localStorage.getItem('paquetesSeleccionados');
+        const pasajeroGuardado = localStorage.getItem('pasajero');
+        const metodoPagoGuardado = localStorage.getItem('metodoPago');
+
+        if (paquetesGuardados) {
+            this.paquetes = JSON.parse(paquetesGuardados);
+            this.total = this.paquetes.reduce((sum, p) => sum + p.precio, 0);
+        }
+
+        if (pasajeroGuardado) {
+            this.pasajero = JSON.parse(pasajeroGuardado);
+        }
+
+        if (metodoPagoGuardado) {
+            this.metodoPago = this.formatearMetodoPago(metodoPagoGuardado);
+        }
+    }
+
+    formatearMetodoPago(valor: string): string {
+        switch (valor) {
+            case 'tarjeta':
+                return 'Tarjeta de crédito/débito';
+            case 'mercado_pago':
+                return 'Mercado Pago';
+            case 'transferencia':
+                return 'Transferencia Bancaria';
+            default:
+                return 'No especificado';
+        }
+    }
+
+    confirmarCompra(): void {
+        console.log('Compra confirmada!');
+        console.log('Paquetes:', this.paquetes);
+        console.log('Pasajero:', this.pasajero);
+        console.log('Método de pago:', this.metodoPago);
+
+        // Redirigir a la pantalla de gracias:
+        this.router.navigate(['/checkout/gracias']);
+    }
 }

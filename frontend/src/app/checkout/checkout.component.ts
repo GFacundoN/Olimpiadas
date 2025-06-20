@@ -6,7 +6,6 @@ import { CheckoutService } from '../services/checkout.service';
   selector: 'app-checkout',
   imports: [RouterOutlet],
   template: `
-    <h1 class="text-3xl font-bold">Procesando tu pago...</h1>
     <router-outlet />
   `,
   styles: ``

@@ -14,4 +14,6 @@ public class TurismoApplication {
 	CommandLineRunner run() {
 		return args -> System.out.println("✅ La app levantó correctamente");
 	}
+
 }
+

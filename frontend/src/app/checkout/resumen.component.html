@@ -1,0 +1,45 @@
+<section class="flex flex-col gap-6 bg-gray-50 p-6 rounded-xl shadow-md">
+    <!-- Título -->
+    <h2 class="text-2xl font-bold">Resumen de la compra</h2>
+
+    <!-- Paquetes seleccionados -->
+    <div *ngIf="paquetes.length > 0">
+        <h3 class="text-lg font-semibold mb-2">Paquetes seleccionados</h3>
+        <ul class="list-disc list-inside space-y-1">
+            <li *ngFor="let paquete of paquetes">
+                {{ paquete.nombre }} - {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Total -->
+    <div *ngIf="total > 0">
+        <h3 class="text-lg font-semibold">Total a pagar:</h3>
+        <p class="text-green-700 font-bold text-xl">
+            {{ total | currency:'ARS':'symbol':'1.0-0' }}
+        </p>
+    </div>
+
+    <!-- Datos del pasajero -->
+    <div *ngIf="pasajero.nombre">
+        <h3 class="text-lg font-semibold mb-2">Datos del pasajero</h3>
+        <p><b>Nombre:</b> {{ pasajero.nombre }} {{ pasajero.apellido }}</p>
+        <p><b>Documento:</b> {{ pasajero.tipoDocumento }} {{ pasajero.documento }}</p>
+        <p><b>Residencia:</b> {{ pasajero.residencia }}</p>
+        <p><b>Nacionalidad:</b> {{ pasajero.nacionalidad }}</p>
+    </div>
+
+    <!-- Método de pago -->
+    <div *ngIf="metodoPago">
+        <h3 class="text-lg font-semibold mb-2">Método de pago</h3>
+        <p>{{ metodoPago }}</p>
+    </div>
+
+    <!-- Botón de confirmación -->
+    <button
+        class="mt-4 bg-green-600 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition hover:brightness-110"
+        (click)="confirmarCompra()"
+    >
+        Confirmar compra
+    </button>
+</section>

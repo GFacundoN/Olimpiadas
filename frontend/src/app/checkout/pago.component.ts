@@ -1,17 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-pago',
-  imports: [RouterLink],
-  template: `
-    <label for="tarjeta">Número de la tarjeta</label>
-    <input type="number" name="tarjeta" id="tarjeta">
-    <br>
-    <button class="rounded-2xl p-3 cursor-pointer border font-bold text-black bg-white" routerLink="../resumen">Continuar</button>
-  `,
-  styles: ``
+    selector: 'app-pago',
+    imports: [RouterLink, CommonModule, FormsModule],
+    templateUrl: 'pago.component.html',
+    styles: ``
 })
 export class PagoComponent {
+    metodoPago: string = '';
 
+    constructor(private router: Router) {}
+
+    continuar(): void {
+        if (this.metodoPago) {
+            localStorage.setItem('metodoPago', this.metodoPago);
+            this.router.navigate(['/checkout/resumen']);
+        }
+    }
 }

@@ -8,12 +8,15 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { PasajerosComponent } from './checkout/pasajeros.component';
 import { PagoComponent } from './checkout/pago.component';
 import { ResumenComponent } from './checkout/resumen.component';
+import { GraciasCompraComponent } from './checkout/gracias-compra.component';
 import { LoginComponent } from './auth/login.component';
+import { RegisterComponent } from './auth/register.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { LogGuard } from './guards/log.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { NotAdminGuard } from './guards/not-admin.guard';
 import { NotLogGuard } from './guards/not-log.guard';
+
 
 export const routes: Routes = [
   {
@@ -26,6 +29,12 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Iniciá sesión',
+    canActivate: [NotLogGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    title: 'Registrate',
     canActivate: [NotLogGuard]
   },
   {
@@ -80,7 +89,12 @@ export const routes: Routes = [
       {
         path: 'resumen',
         component: ResumenComponent
+      },
+      { 
+        path: 'gracias',
+         component: GraciasCompraComponent 
       }
+
     ],
     canActivate: [LogGuard, NotAdminGuard]
   }
