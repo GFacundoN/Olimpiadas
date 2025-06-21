@@ -15,4 +15,12 @@ export class PaquetesService {
     obtenerPaquetes(): Observable<Paquete[]> {
         return this.http.get<Paquete[]>(this.apiUrl);
     }
+    
+    crearPaquete(paquete: Paquete): Observable<Paquete> {
+        return this.http.post<Paquete>(this.apiUrl, paquete);
+    }
+
+    eliminarPaquete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
 }

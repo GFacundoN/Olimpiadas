@@ -12,6 +12,18 @@ export class PedidosService {
   crearPedido(idPaquete: number, idUsuario: number, totalFinal: number): Observable<any> {
   const body = { idPaquete, idUsuario, totalFinal };
   return this.http.post(this.apiURL, body);
-}
+  }
 
+  listarTodosLosPedidos(idUsuario: number): Observable<any[]> {
+    const params = { idUsuario };
+    return this.http.get<any[]>(`http://localhost:8080/api/admin/pedidos`, { params });
+  }
+
+  entregarPedido(id: number): Observable<any> {
+    return this.http.patch<any>(`http://localhost:8080/api/admin/pedidos/${id}/entregar`, {});
+  }
+
+  anularPedido(id: number): Observable<any> {
+    return this.http.patch<any>(`http://localhost:8080/api/admin/pedidos/${id}/anular`, {});
+  }
 }

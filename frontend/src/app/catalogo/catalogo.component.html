@@ -1,40 +1,61 @@
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-    <article *ngFor="let paquete of paquetes" class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]">
-        <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover">
+<section class="space-y-6 p-6">
+    <div *ngIf="esAdmin" class="space-y-4">
+        <h2 class="text-lg font-semibold">Crear Paquete</h2>
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Origen" [(ngModel)]="nuevoPaquete.origen" name="origen" class="border p-2 rounded">
+            <input type="text" placeholder="Destino" [(ngModel)]="nuevoPaquete.destino" name="destino" class="border p-2 rounded">
+            <input type="text" placeholder="Descripción" [(ngModel)]="nuevoPaquete.descripcion" name="descripcion" class="border p-2 rounded">
+            <input type="number" placeholder="Precio" [(ngModel)]="nuevoPaquete.precio" name="precio" class="border p-2 rounded">
+            <select [(ngModel)]="nuevoPaquete.claseVuelo" name="claseVuelo" class="border p-2 rounded">
+                <option value="">-- Clase de Vuelo --</option>
+                <option *ngFor="let clase of claseVueloOpciones" [value]="clase">{{ clase }}</option>
+            </select>
+            <input type="text" placeholder="Alojamiento" [(ngModel)]="nuevoPaquete.alojamiento" name="alojamiento" class="border p-2 rounded">
+            <input type="date" placeholder="Fecha Inicio" [(ngModel)]="nuevoPaquete.fechaInicio" name="fechaInicio" class="border p-2 rounded">
+            <input type="date" placeholder="Fecha Fin" [(ngModel)]="nuevoPaquete.fechaFin" name="fechaFin" class="border p-2 rounded">
+            <input type="number" placeholder="Cantidad de Personas" [(ngModel)]="nuevoPaquete.cantPersonas" name="cantPersonas" class="border p-2 rounded">
+            <button type="button" (click)="crearPaquete()" class="bg-green-500 text-white py-2 rounded">Crear</button>
+        </form>
+    </div>
 
-        <div class="p-4 flex flex-col flex-1 justify-between space-y-2">
-            <div>
-                <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">{{ paquete.destino }}</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article *ngFor="let paquete of paquetes" class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]">
+            <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover">
 
-                <ul class="text-sm text-gray-600">
-                    <li>📍 Origen: {{ paquete.origen }}</li>
-                    <li>📍 Destino: {{ paquete.destino }}</li>
-                </ul>
+    <div class="p-4 flex flex-col flex-1 justify-between space-y-2">
+        <div>
+            <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">Escapada a {{ paquete.destino }}</h1>
+            <ul class="text-sm text-gray-600">
+                <li>📍 Origen: {{ paquete.origen }}</li>
+                <li>📍 Destino: {{ paquete.destino }}</li>
+            </ul>
 
-                <div class="flex gap-4 text-sm text-gray-500 pt-2">
-                    <div class="flex items-center gap-1">
-                        <span class="text-lg">⏱</span>
-                        <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-lg">🚗</span>
-                        <span>{{ paquete.claseVuelo }}</span>
-                    </div>
-                </div>
+        <div class="flex gap-4 text-sm text-gray-500 pt-2">
+            <div class="flex items-center gap-1">
+                <span class="text-lg">⏱</span>
+                <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
             </div>
-
-            <div class="pt-4">
-                <div class="text-right font-bold text-green-700 text-lg">
-                    {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
-                </div>
-
-                <button
-                    class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition"
-                    [routerLink]="['/catalogo', paquete.idPaquete]"
-                >
-                    Ver detalle
-                </button>
+            <div class="flex items-center gap-1">
+                <span class="text-lg">🚗</span>
+                <span>{{ paquete.claseVuelo }}</span>
             </div>
         </div>
-    </article>
+        </div>
+
+        <div class="pt-4">
+            <div class="text-right font-bold text-green-700 text-lg">
+                {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
+            </div>
+
+            <button *ngIf="!esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" [routerLink]="['/catalogo', paquete.idPaquete]">
+            Ver detalle
+            </button>
+
+            <button *ngIf="esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" (click)="eliminarPaquete(paquete.idPaquete)">
+            Eliminar
+            </button>
+        </div>
+    </div>
+        </article>
+    </div>
 </section>
