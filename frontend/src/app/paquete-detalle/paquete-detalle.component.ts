@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Paquete } from '../models/paquete.model';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PaquetesService } from '../services/paquetes.service';
 import { CurrencyPipe } from '@angular/common';
 import { CarritoService } from '../services/carrito.service';
@@ -10,7 +10,7 @@ import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-paquete-detalle',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [CurrencyPipe ],
   templateUrl: './paquete-detalle.component.html',
   styles: ``,
 })
@@ -30,14 +30,16 @@ export class PaqueteDetalleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.service.getPaquetes().subscribe((data) => {
+        this.service.obtenerPaquetes().subscribe((data) => {
             this.paquetes = data;
         });
+
         setTimeout(() => {
             this.rutaActiva.params.subscribe((params) => {
                 this.paquete = this.paquetes.find(
-                    (paquete) => paquete.id == params['id']
+                    (paquete) => paquete.idPaquete == +params['id']
                 );
+
             });
         }, 500);
     }
@@ -58,7 +60,7 @@ export class PaqueteDetalleComponent implements OnInit {
     const carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
 
     // Evitar duplicados (opcional)
-    const yaEsta = carrito.some((p: Paquete) => p.id === paquete.id);
+    const yaEsta = carrito.some((p: Paquete) => p.idPaquete === paquete.idPaquete);
     if (!yaEsta) {
         carrito.push(paquete);
         localStorage.setItem('paquetesSeleccionados', JSON.stringify(carrito));

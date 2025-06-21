@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-pago',
-    imports: [RouterLink, CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: 'pago.component.html',
     styles: ``
 })

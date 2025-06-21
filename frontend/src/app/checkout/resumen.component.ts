@@ -1,6 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { PedidosService } from '../services/pedidos.service';
+import { UserService } from '../services/user.service';
 
 @Component({
     selector: 'app-resumen',
@@ -9,17 +11,10 @@ import { Router } from '@angular/router';
     imports: [CommonModule]
 })
 export class ResumenComponent implements OnInit {
-    paquetes: { nombre: string; precio: number }[] = [];
+    paquetes: { idPaquete: number; destino: string; precio: number }[] = [];
     total: number = 0;
 
-    pasajero: {
-        nombre: string;
-        apellido: string;
-        tipoDocumento: string;
-        documento: string;
-        residencia: string;
-        nacionalidad: string;
-    } = {
+    pasajero = {
         nombre: '',
         apellido: '',
         tipoDocumento: '',
@@ -30,8 +25,9 @@ export class ResumenComponent implements OnInit {
 
     metodoPago: string = '';
 
-    // Inyectar Router acá:
-    constructor(private router: Router) {}
+    pedidoService = inject(PedidosService);
+    userService = inject(UserService);
+    router = inject(Router);
 
     ngOnInit(): void {
         const paquetesGuardados = localStorage.getItem('paquetesSeleccionados');
@@ -66,12 +62,24 @@ export class ResumenComponent implements OnInit {
     }
 
     confirmarCompra(): void {
-        console.log('Compra confirmada!');
-        console.log('Paquetes:', this.paquetes);
-        console.log('Pasajero:', this.pasajero);
-        console.log('Método de pago:', this.metodoPago);
+        const idUsuario = this.userService.getUserId(); // ✅ forma segura
+        const idPaquete = this.paquetes[0]?.idPaquete;
 
-        // Redirigir a la pantalla de gracias:
-        this.router.navigate(['/checkout/gracias']);
+        if (!idUsuario || !idPaquete) {
+            alert('Faltan datos del usuario o del paquete.');
+            return;
+        }
+
+        this.pedidoService.crearPedido(idPaquete, idUsuario, this.total).subscribe({
+            next: () => {
+                console.log('Pedido creado con éxito');
+                localStorage.removeItem('paquetesSeleccionados');
+                this.router.navigate(['/checkout/gracias']);
+            },
+            error: (err) => {
+                console.error('Error al crear el pedido:', err);
+                alert('No se pudo procesar el pedido');
+            }
+        });
     }
 }

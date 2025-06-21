@@ -1,40 +1,44 @@
-<section class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]">
-    <!-- Imagen -->
-    <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover">
+<section
+    *ngFor="let paquete of paquetes"
+    class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]"
+>
+    <!-- Imagen (puede venir del paquete o ser estática por ahora) -->
+    <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover" />
 
     <!-- Contenido -->
     <div class="p-4 flex flex-col flex-1 justify-between space-y-2">
         <div>
-            <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">{{ nombre }}</h1>
+            <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">Escapada a {{ paquete.destino }}</h1>
 
             <ul class="text-sm text-gray-600">
-                <li>📍 Origen: {{ origen }}</li>
-                <li>📍 Destino: {{ destino }}</li>
+                <li>📍 Origen: {{ paquete.origen }}</li>
+                <li>📍 Destino: {{ paquete.destino }}</li>
             </ul>
 
             <div class="flex gap-4 text-sm text-gray-500 pt-2">
                 <div class="flex items-center gap-1">
                     <span class="text-lg">⏱</span>
-                    <span>Duración variable</span>
+                    <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
                 </div>
                 <div class="flex items-center gap-1">
                     <span class="text-lg">🚗</span>
-                    <span>Transporte</span>
+                    <span>{{ paquete.claseVuelo }}</span>
                 </div>
             </div>
         </div>
 
         <div class="pt-4">
             <div class="text-right font-bold text-green-700 text-lg">
-                {{ precio | currency }}
+                {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
             </div>
 
-            @if (!userService.admin) {
-                <button class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition"
-                    routerLink="{{ id }}">
-                    Ver detalle
-                </button>
-            }
+            <button
+                *ngIf="!esAdmin"
+                class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition"
+                [routerLink]="['/catalogo', paquete.idPaquete]"
+            >
+                Ver detalle
+            </button>
         </div>
     </div>
 </section>

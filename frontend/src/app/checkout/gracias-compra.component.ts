@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
         <p class="text-lg text-gray-700 mb-8">Tu pedido ha sido procesado exitosamente.</p>
         <button
             (click)="volverInicio()"
-            class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md shadow-md transition"
+            class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md shadow-md transition cursor-pointer"
         >
             Volver al inicio
         </button>

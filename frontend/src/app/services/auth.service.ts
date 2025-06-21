@@ -16,7 +16,7 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-    id: number;
+    idUsuario: number;
     email: string;
     admin: boolean;
 }

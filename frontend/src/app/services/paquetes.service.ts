@@ -1,20 +1,18 @@
+// src/app/services/paquetes.service.ts
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Paquete } from '../models/paquete.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PaquetesService {
-  constructor() { }
+    private apiUrl = 'http://localhost:8080/api/paquetes';
 
-  private jsonURL = "paquetes.json";
-  private http = inject(HttpClient);
+    constructor(private http: HttpClient) {}
 
-  public getPaquetes(): Observable<Paquete[]> {
-    console.log("peticion lista")
-    return this.http.get<Paquete[]>(this.jsonURL);
-  }
-
+    obtenerPaquetes(): Observable<Paquete[]> {
+        return this.http.get<Paquete[]>(this.apiUrl);
+    }
 }

@@ -1,7 +1,12 @@
 export interface Paquete {
-  id: number;
-  nombre: string;
-  precio: number;
-  origen: string;
-  destino: string;
+    idPaquete: number;
+    cantPersonas: number;
+    origen: string;
+    destino: string;
+    fechaInicio: string;
+    fechaFin: string;
+    alojamiento: string;
+    claseVuelo: string;
+    precio: number;
+    descripcion: string;
 }

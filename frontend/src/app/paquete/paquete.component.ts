@@ -1,20 +1,29 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+// src/app/models/paquete/paquete.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { PaquetesService } from '../services/paquetes.service';
 import { UserService } from '../services/user.service';
+import { Paquete } from '../models/paquete.model';
 
 @Component({
-  selector: 'app-paquete',
-  imports: [RouterLink, CurrencyPipe],
-  templateUrl: `paquete.component.html`,
-  styles: ``,
+    selector: 'app-paquete',
+    standalone: true,
+    imports: [CommonModule, RouterModule],
+    templateUrl: './paquete.component.html'
 })
-export class PaqueteComponent {
-  @Input() id!: number;
-  @Input() nombre!: string; // es el título que aparece en grande en cada tarjeta
-  @Input() precio!: number;
-  @Input() origen!: string;
-  @Input() destino!: string;
+export class PaqueteComponent implements OnInit {
+    paquetes: Paquete[] = [];
+    esAdmin = false;
 
-  userService = inject(UserService);
+    constructor(private paquetesService: PaquetesService, private userService: UserService) {}
+
+    ngOnInit(): void {
+        this.paquetesService.obtenerPaquetes().subscribe({
+            next: (data) => this.paquetes = data,
+            error: (err) => console.error('Error al cargar paquetes:', err)
+        });
+
+        this.esAdmin = this.userService.admin;
+    }
 }

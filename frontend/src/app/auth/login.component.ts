@@ -22,11 +22,15 @@ export class LoginComponent {
         private authService: AuthService,
         private router: Router
     ) {}
-
     onSubmit() {
         this.authService.login({ email: this.email, password: this.password }).subscribe({
             next: (res) => {
-                this.userService.login(res);
+               this.userService.login({
+                    id: res.idUsuario, // ← CAMBIO IMPORTANTE
+                    email: res.email,
+                    admin: res.admin
+                });
+
                 this.router.navigate(['/']);
             },
             error: (err) => {
@@ -34,4 +38,6 @@ export class LoginComponent {
             }
         });
     }
+
+
 }
