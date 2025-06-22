@@ -1,26 +1,45 @@
-@if (paquete) {
-    <h1 class="text-3xl font-bold">{{ paquete.destino }}</h1>
-    <ul>
-        <li>Origen: {{ paquete.origen }}</li>
-        <li>Destino: {{ paquete.destino }}</li>
-    </ul>
-    <h5 class="font-semibold text-green-700">Precio: {{ paquete.precio | currency }}</h5>
+<ng-container *ngIf="paquete; else cargando">
+    <section class="bg-gray-50 p-6 rounded-2xl shadow-md max-w-2xl mx-auto flex flex-col gap-6">
+        <h1 class="text-3xl font-bold text-gray-900">{{ paquete!.destino }}</h1>
 
-    <button #btnAgregar
-        class="rounded-2xl p-3 cursor-pointer border font-bold text-white bg-black"
-        (click)="agregarAlCarrito(paquete)">
-        Agregar al carrito
-    </button>
+       <ul class="text-gray-700 space-y-1">
+            <li><span class="font-semibold">📍 Origen:</span> {{ paquete!.origen }}</li>
+            <li><span class="font-semibold">🗺️ Destino:</span> {{ paquete!.destino }}</li>
+            <li><span class="font-semibold">👥 Huéspedes:</span> {{ paquete!.cantPersonas }}</li>
+            <li><span class="font-semibold">📅 Desde:</span> {{ paquete!.fechaInicio }}</li>
+            <li><span class="font-semibold">📅 Hasta:</span> {{ paquete!.fechaFin }}</li>
+            <li><span class="font-semibold">✈️ Clase de vuelo:</span> {{ paquete!.claseVuelo }}</li>
+            <li><span class="font-semibold">🏨 Alojamiento:</span> {{ paquete!.alojamiento }}</li>
+            <li><span class="font-semibold">📝 Descripción:</span> {{ paquete!.descripcion }}</li>
+        </ul>
 
-    <button
-        class="rounded-2xl p-3 cursor-pointer border font-bold text-black bg-white"
-        (click)="comprarAhora(paquete)">
-        Comprar ahora
-    </button>
 
-    @defer (on interaction(btnAgregar)) {
-        <b class="font-bold text-green-700 uppercase">agregado al carrito!</b>
-    }
-} @else {
-    <b class="text-3xl">cargando info...</b>
-}
+        <h5 class="text-2xl font-bold text-green-700">
+            Precio: {{ paquete!.precio | currency }}
+        </h5>
+
+        <div class="flex gap-4">
+            <button #btnAgregar
+                class="bg-black text-white font-semibold py-2 px-6 rounded-2xl shadow hover:bg-gray-800 transition cursor-pointer"
+                (click)="agregarAlCarrito(paquete!)">
+                Agregar al carrito
+            </button>
+
+            <button
+                class="bg-white text-black border font-semibold py-2 px-6 rounded-2xl shadow hover:bg-gray-100 transition cursor-pointer"
+                (click)="comprarAhora(paquete!)">
+                Comprar ahora
+            </button>
+        </div>
+
+        <div *ngIf="carritoAgregado">
+            <b class="font-bold text-green-700 uppercase tracking-wide">¡Agregado al carrito!</b>
+        </div>
+    </section>
+</ng-container>
+
+<ng-template #cargando>
+    <div class="text-center my-12">
+        <b class="text-3xl text-gray-600">Cargando info...</b>
+    </div>
+</ng-template>

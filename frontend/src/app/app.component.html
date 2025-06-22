@@ -8,7 +8,7 @@
   <nav class="hidden md:flex items-center space-x-8 [&>a]:text-gray-600 [&>a]:hover:text-gray-900 [&>a]:font-medium [&>a]:transition-colors"
   >
     <a routerLink="">Inicio</a>
-    <a routerLink="">Sobre</a>
+    <a routerLink="sobre">Sobre</a>
     <!-- agregar componente y enlace después -->
     <a routerLink="catalogo">Paquetes</a>
     @if (userService.logged) { @if (!userService.admin) {
@@ -18,7 +18,7 @@
         <a class="font-black" routerLink="pedidos">Pedidos</a>
       }
     }
-    <a routerLink="">Contacto</a>
+    <a routerLink="contacto">Contacto</a>
     <!-- agregar componente y enlace después -->
   </nav>
 
@@ -43,7 +43,7 @@
   </div>
 </header>
 
-<main class="w-3/4 min-h-dvh mx-auto my-6"> <!-- 'min-h-dvh' temporal hasta que el contenido en todos las rutas complete la altura -->
+<main class=" min-h-dvh mx-auto bg-[#FAF9F6]"> <!-- 'min-h-dvh' temporal hasta que el contenido en todos las rutas complete la altura -->
   <router-outlet />
 </main>
 
@@ -64,11 +64,11 @@
         <!-- items del navbar centrados -->
         <nav class="flex flex-wrap justify-center gap-8 md:gap-12 [&>a]:hover:text-white [&>a]:transition-colors [&>a]:font-medium">
           <a routerLink="">Inicio</a>
-          <a routerLink="">Sobre</a>
+          <a routerLink="sobre">Sobre</a>
           <a routerLink="catalogo">Paquetes</a>
-          <a routerLink="">Contacto</a>
-          <a routerLink="">Iniciar sesion</a>
-          <a routerLink="">Registrarse</a>
+          <a routerLink="contacto">Contacto</a>
+          <a routerLink="login">Iniciar sesion</a>
+          <a routerLink="register">Registrarse</a>
         </nav>
       </div>
     </div>

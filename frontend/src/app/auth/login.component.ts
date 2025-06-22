@@ -26,7 +26,7 @@ export class LoginComponent {
         this.authService.login({ email: this.email, password: this.password }).subscribe({
             next: (res) => {
                this.userService.login({
-                    id: res.idUsuario, // ← CAMBIO IMPORTANTE
+                    id: res.idUsuario, 
                     email: res.email,
                     admin: res.admin
                 });

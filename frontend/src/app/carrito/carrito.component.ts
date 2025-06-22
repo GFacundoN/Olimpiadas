@@ -27,7 +27,7 @@ actualizarTotal(id: number) {
     this.paquetesArray = Array.from(this.paquetes);
     this.total = this.carritoService.actualizarTotal();
 
-    // Actualizar localStorage con los paquetes actuales para el resumen
+    // Actualiza localStorage con los paquetes actuales para el resumen
     localStorage.setItem('paquetesSeleccionados', JSON.stringify(this.paquetesArray));
 }
 

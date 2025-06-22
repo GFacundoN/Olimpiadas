@@ -37,6 +37,32 @@ export class UserService {
         localStorage.setItem('user', JSON.stringify(user));
     }
 
+    logout(): void {
+        const data = localStorage.getItem('user');
+        if (data) {
+            const { idUsuario } = JSON.parse(data);
+
+            // Borra claves asociadas al usuario
+            localStorage.removeItem(`carrito_${idUsuario}`);
+            localStorage.removeItem(`paquetesSeleccionados_${idUsuario}`);
+            localStorage.removeItem(`pasajero_${idUsuario}`);
+            localStorage.removeItem(`metodoPago_${idUsuario}`);
+        }
+
+        // Borra claves genéricas (por si se usó navegación sin logueo)
+        localStorage.removeItem('carrito_anonimo');
+        localStorage.removeItem('paquetesSeleccionados');
+        localStorage.removeItem('pasajero');
+        localStorage.removeItem('metodoPago');
+
+        localStorage.removeItem('user'); // Remover sesión
+
+        this.logged = false;
+        this.email = null;
+        this.userId = null;
+        this.admin = false;
+    }
+
     getUserId(): number | null {
         const data = localStorage.getItem('user');
         if (data) {
@@ -49,36 +75,6 @@ export class UserService {
         }
         return null;
     }
-
-
-    logout(): void {
-        const data = localStorage.getItem('user');
-        
-        if (data) {
-            const { idUsuario } = JSON.parse(data);
-
-            // Eliminar datos ligados a un usuario con login
-            localStorage.removeItem(`carrito_${idUsuario}`);
-            localStorage.removeItem(`paquetesSeleccionados_${idUsuario}`);
-            localStorage.removeItem(`pasajero_${idUsuario}`);
-            localStorage.removeItem(`metodoPago_${idUsuario}`);
-        }
-
-        // También eliminar datos genéricos/anteriores (usuario anónimo)
-        localStorage.removeItem('carrito_anonimo');
-        localStorage.removeItem('paquetesSeleccionados');
-        localStorage.removeItem('pasajero');    
-        localStorage.removeItem('metodoPago');
-        localStorage.removeItem('user');
-
-        // Limpiar el estado local
-        this.logged = false;
-        this.email = null;
-        this.userId = null;
-        this.admin = false;
-    }
-
-
 
     isAdmin(): boolean {
         return this.admin;

@@ -1,18 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Paquete } from '../models/paquete.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaquetesService } from '../services/paquetes.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, CommonModule } from '@angular/common';
 import { CarritoService } from '../services/carrito.service';
 import { CheckoutService } from '../services/checkout.service';
-import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-paquete-detalle',
-  imports: [CurrencyPipe ],
-  templateUrl: './paquete-detalle.component.html',
-  styles: ``,
+    selector: 'app-paquete-detalle',
+    standalone: true,
+    imports: [CommonModule, CurrencyPipe],
+    templateUrl: './paquete-detalle.component.html',
+    styles: ``,
 })
 export class PaqueteDetalleComponent implements OnInit {
     rutaActiva = inject(ActivatedRoute);
@@ -22,6 +22,7 @@ export class PaqueteDetalleComponent implements OnInit {
 
     paquetes!: Paquete[];
     paquete!: Paquete | undefined;
+    carritoAgregado: boolean = false;
 
     constructor(
         private carritoService: CarritoService,
@@ -39,48 +40,49 @@ export class PaqueteDetalleComponent implements OnInit {
                 this.paquete = this.paquetes.find(
                     (paquete) => paquete.idPaquete == +params['id']
                 );
-
             });
         }, 500);
     }
 
     agregarAlCarrito(paquete: Paquete): void {
-    if (!this.userService.isLogged()) {
-        this.router.navigate(['/login'], {
-            queryParams: { returnUrl: '/catalogo' }
-        });
-        return;
+        if (!this.userService.isLogged()) {
+            this.router.navigate(['/login'], {
+                queryParams: { returnUrl: '/catalogo' },
+            });
+            return;
+        }
+
+        this.carritoService.setToCarrito(paquete);
+
+        const carritoGuardado = localStorage.getItem('paquetesSeleccionados');
+        const carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+
+        const yaEsta = carrito.some(
+            (p: Paquete) => p.idPaquete === paquete.idPaquete
+        );
+
+        if (!yaEsta) {
+            carrito.push(paquete);
+            localStorage.setItem('paquetesSeleccionados', JSON.stringify(carrito));
+            this.carritoAgregado = true;
+
+            setTimeout(() => {
+                this.carritoAgregado = false;
+            }, 3000);
+        } else {
+            alert('Este paquete ya está en el carrito');
+        }
     }
 
-    // Lógica en memoria (por si usás el servicio en otras partes)
-    this.carritoService.setToCarrito(paquete);
+    comprarAhora(paquete: Paquete): void {
+        if (!this.userService.isLogged()) {
+            this.router.navigate(['/login'], {
+                queryParams: { returnUrl: '/catalogo' },
+            });
+            return;
+        }
 
-    // Lógica persistente (para el resumen final)
-    const carritoGuardado = localStorage.getItem('paquetesSeleccionados');
-    const carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
-
-    // Evitar duplicados (opcional)
-    const yaEsta = carrito.some((p: Paquete) => p.idPaquete === paquete.idPaquete);
-    if (!yaEsta) {
-        carrito.push(paquete);
-        localStorage.setItem('paquetesSeleccionados', JSON.stringify(carrito));
-        alert('Paquete agregado al carrito');
-    } else {
-        alert('Este paquete ya está en el carrito');
+        this.checkout.getPaquete(paquete);
+        this.router.navigate(['/checkout']);
     }
-}
-
-
-  comprarAhora(paquete: Paquete): void {
-      if (!this.userService.isLogged()) {
-          this.router.navigate(['/login'], {
-              queryParams: { returnUrl: '/catalogo' }
-          });
-          return;
-      }
-
-      this.checkout.getPaquete(paquete);
-      this.router.navigate(['/checkout']);
-  }
-
 }

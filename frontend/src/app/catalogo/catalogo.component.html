@@ -1,5 +1,6 @@
-<section class="space-y-6 p-6">
-    <div *ngIf="esAdmin" class="space-y-4">
+<section class="space-y-6 p-6 w-3/4 m-auto">
+    <!-- Formulario solo visible si es admin -->
+    <div *ngIf="esAdmin" class="space-y-4 ">
         <h2 class="text-lg font-semibold">Crear Paquete</h2>
         <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="text" placeholder="Origen" [(ngModel)]="nuevoPaquete.origen" name="origen" class="border p-2 rounded">
@@ -18,44 +19,45 @@
         </form>
     </div>
 
+    <!-- Catálogo de paquetes filtrados -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <article *ngFor="let paquete of paquetes" class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]">
+        <article *ngFor="let paquete of paquetesFiltrados" class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]">
             <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover">
 
-    <div class="p-4 flex flex-col flex-1 justify-between space-y-2">
-        <div>
-            <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">Escapada a {{ paquete.destino }}</h1>
-            <ul class="text-sm text-gray-600">
-                <li>📍 Origen: {{ paquete.origen }}</li>
-                <li>📍 Destino: {{ paquete.destino }}</li>
-            </ul>
+            <div class="p-4 flex flex-col flex-1 justify-between space-y-2">
+                <div>
+                    <h1 class="font-bold text-xl text-gray-800 min-h-[3rem]">Escapada a {{ paquete.destino }}</h1>
+                    <ul class="text-sm text-gray-600">
+                        <li>📍 Origen: {{ paquete.origen }}</li>
+                        <li>📍 Destino: {{ paquete.destino }}</li>
+                    </ul>
 
-        <div class="flex gap-4 text-sm text-gray-500 pt-2">
-            <div class="flex items-center gap-1">
-                <span class="text-lg">⏱</span>
-                <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
+                    <div class="gap-4 text-sm text-gray-500 pt-2">
+                        <div class="flex items-center gap-1">
+                            <span class="text-lg">⏱</span>
+                            <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-lg">💺</span>
+                            <span>{{ paquete.claseVuelo }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <div class="text-right font-bold text-green-700 text-lg">
+                        {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
+                    </div>
+
+                    <button *ngIf="!esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" [routerLink]="['/catalogo', paquete.idPaquete]">
+                        Ver detalle
+                    </button>
+
+                    <button *ngIf="esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" (click)="eliminarPaquete(paquete.idPaquete)">
+                        Eliminar
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center gap-1">
-                <span class="text-lg">🚗</span>
-                <span>{{ paquete.claseVuelo }}</span>
-            </div>
-        </div>
-        </div>
-
-        <div class="pt-4">
-            <div class="text-right font-bold text-green-700 text-lg">
-                {{ paquete.precio | currency:'ARS':'symbol':'1.0-0' }}
-            </div>
-
-            <button *ngIf="!esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" [routerLink]="['/catalogo', paquete.idPaquete]">
-            Ver detalle
-            </button>
-
-            <button *ngIf="esAdmin" class="mt-2 w-full bg-red-500 text-white rounded-xl font-semibold py-2 hover:bg-red-600 cursor-pointer transition" (click)="eliminarPaquete(paquete.idPaquete)">
-            Eliminar
-            </button>
-        </div>
-    </div>
         </article>
     </div>
 </section>

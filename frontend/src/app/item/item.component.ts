@@ -22,7 +22,7 @@ export class ItemComponent {
 
   updateTotal() {
     this.carritoService.removeFromCarrito(this.id);
-    this.nuevoTotal.emit(this.precio); // el evento se emite con el click de eliminación
-    this.eliminado.emit(this.id); // ahora se emite solo el id, más claro
+    this.nuevoTotal.emit(this.precio); 
+    this.eliminado.emit(this.id); 
   }
 }

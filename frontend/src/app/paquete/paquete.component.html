@@ -2,7 +2,6 @@
     *ngFor="let paquete of paquetes"
     class="bg-gray-50 rounded-lg shadow-md overflow-hidden w-full max-w-sm flex flex-col min-h-[500px]"
 >
-    <!-- Imagen (puede venir del paquete o ser estática por ahora) -->
     <img src="images/paquete-ejemplo.webp" alt="Imagen del paquete" class="w-full h-48 object-cover" />
 
     <!-- Contenido -->
@@ -21,7 +20,7 @@
                     <span>{{ paquete.fechaInicio }} → {{ paquete.fechaFin }}</span>
                 </div>
                 <div class="flex items-center gap-1">
-                    <span class="text-lg">🚗</span>
+                    <span class="text-lg">💺</span>
                     <span>{{ paquete.claseVuelo }}</span>
                 </div>
             </div>

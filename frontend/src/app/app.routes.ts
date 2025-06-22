@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { ContactoComponent } from './contacto/contacto.component';
+import { SobreComponent } from './sobre/sobre.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { PaqueteDetalleComponent } from './paquete-detalle/paquete-detalle.component';
 import { ComprasComponent } from './compras/compras.component';
@@ -25,6 +27,16 @@ export const routes: Routes = [
     title: 'Inicio',
   },
   {
+    path: 'contacto',
+    component: ContactoComponent,
+    title: 'Contacto',
+  },
+  {
+    path: 'sobre',
+    component: SobreComponent,
+    title: 'Sobre',
+  },
+  {
     // solo los que no están logueados pueden acceder
     path: 'login',
     component: LoginComponent,
@@ -47,12 +59,12 @@ export const routes: Routes = [
     // cualquiera puede ver el detalle del paquete
     path: 'catalogo/:id',
     component: PaqueteDetalleComponent,
-    title: 'Detalles de tu viaje' // cambiar por el titulo del viaje
+    title: 'Detalles de tu viaje' //
   },
   {
     path: 'carrito',
     component: CarritoComponent,
-    title: 'Mi carrito', // cambiar por el titulo del viaje
+    title: 'Mi carrito', 
     canActivate: [LogGuard, NotAdminGuard]
   },
   {
@@ -64,7 +76,7 @@ export const routes: Routes = [
   {
     path: 'mis-compras',
     component: ComprasComponent,
-    title: 'Mis compras', // cambiar por el titulo del viaje
+    title: 'Mis compras', 
     canActivate: [LogGuard, NotAdminGuard]
   },
   {
