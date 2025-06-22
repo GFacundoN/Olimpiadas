@@ -37,9 +37,6 @@ Participante de las ONETP 2025
 - [Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [Funcionalidades Principales](#-funcionalidades-principales)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Capturas de Pantalla](#-capturas-de-pantalla)
-- [Cómo Ejecutarlo](#-cómo-ejecutarlo)
-- [Endpoints Destacados](#-endpoints-destacados)
 - [Autor](#-autor)
 - [Créditos](#-créditos)
 
