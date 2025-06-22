@@ -9,7 +9,6 @@
   >
     <a routerLink="">Inicio</a>
     <a routerLink="sobre">Sobre</a>
-    <!-- agregar componente y enlace después -->
     <a routerLink="catalogo">Paquetes</a>
     @if (userService.logged) { @if (!userService.admin) {
       <a routerLink="carrito">Carrito</a>
@@ -19,7 +18,6 @@
       }
     }
     <a routerLink="contacto">Contacto</a>
-    <!-- agregar componente y enlace después -->
   </nav>
 
   <!-- boton login-->
@@ -43,7 +41,7 @@
   </div>
 </header>
 
-<main class=" min-h-dvh mx-auto bg-[#FAF9F6]"> <!-- 'min-h-dvh' temporal hasta que el contenido en todos las rutas complete la altura -->
+<main class=" min-h-dvh mx-auto bg-[#FAF9F6]">
   <router-outlet />
 </main>
 
