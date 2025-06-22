@@ -53,21 +53,32 @@ export class UserService {
 
     logout(): void {
         const data = localStorage.getItem('user');
+        
         if (data) {
             const { idUsuario } = JSON.parse(data);
+
+            // Eliminar datos ligados a un usuario con login
             localStorage.removeItem(`carrito_${idUsuario}`);
             localStorage.removeItem(`paquetesSeleccionados_${idUsuario}`);
             localStorage.removeItem(`pasajero_${idUsuario}`);
             localStorage.removeItem(`metodoPago_${idUsuario}`);
         }
 
-        localStorage.removeItem('user'); // <== clave correcta
+        // También eliminar datos genéricos/anteriores (usuario anónimo)
+        localStorage.removeItem('carrito_anonimo');
+        localStorage.removeItem('paquetesSeleccionados');
+        localStorage.removeItem('pasajero');    
+        localStorage.removeItem('metodoPago');
+        localStorage.removeItem('user');
 
+        // Limpiar el estado local
         this.logged = false;
         this.email = null;
         this.userId = null;
         this.admin = false;
     }
+
+
 
     isAdmin(): boolean {
         return this.admin;
