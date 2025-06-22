@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class PedidoController {
 
     private final PedidoService pedidoService;
@@ -35,13 +36,17 @@ public class PedidoController {
         paqueteService.eliminarPaquete(id);
     }
 
+    public record PedidoRequest(Integer idPaquete, Integer idUsuario, BigDecimal totalFinal) {}
+
     @PostMapping("/pedidos")
-    public Pedido crearPedido(
-            @RequestParam Integer idPaquete,
-            @RequestParam Integer idUsuario,
-            @RequestParam BigDecimal totalFinal) {
-        return pedidoService.crearPedido(idPaquete, idUsuario, totalFinal);
+    public Pedido crearPedido(@RequestBody PedidoRequest pedidoRequest) {
+        return pedidoService.crearPedido(
+                pedidoRequest.idPaquete(),
+                pedidoRequest.idUsuario(),
+                pedidoRequest.totalFinal()
+        );
     }
+
 
     @GetMapping("/pedidos/mis-pedidos")
     public List<PedidoDTO> verPedidosDeUsuario(

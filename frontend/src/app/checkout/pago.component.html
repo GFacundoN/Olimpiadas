@@ -1,0 +1,51 @@
+<div class="w-3/4 m-auto p-8">
+    <h4 class="text-xl font-semibold mb-4">Elegí el método de pago</h4>
+
+<form class="flex flex-col gap-6">
+    <!-- Opciones -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Tarjeta -->
+        <label
+            class="flex flex-col items-center p-4 rounded-xl shadow-md border-2 cursor-pointer transition-all text-center"
+            [class.border-blue-500]="metodoPago === 'tarjeta'"
+            [class.border-gray-300]="metodoPago !== 'tarjeta'"
+        >
+            <input type="radio" name="metodo" value="tarjeta" class="hidden" [(ngModel)]="metodoPago" />
+            <img src="images/tarjetas.webp" alt="Tarjeta" class="h-48 object-contain mb-2" />
+            <span class="font-medium">Tarjeta de crédito/débito</span>
+        </label>
+
+        <!-- Mercado Pago -->
+        <label
+            class="flex flex-col items-center p-4 rounded-xl shadow-md border-2 cursor-pointer transition-all text-center"
+            [class.border-blue-500]="metodoPago === 'mercado_pago'"
+            [class.border-gray-300]="metodoPago !== 'mercado_pago'"
+        >
+            <input type="radio" name="metodo" value="mercado_pago" class="hidden" [(ngModel)]="metodoPago" />
+            <img src="images/mercadopago.webp" alt="Mercado Pago" class="h-48 object-contain mb-2" />
+            <span class="font-medium">Mercado Pago</span>
+        </label>
+
+        <!-- Transferencia -->
+        <label
+            class="flex flex-col items-center p-4 rounded-xl shadow-md border-2 cursor-pointer transition-all text-center"
+            [class.border-blue-500]="metodoPago === 'transferencia'"
+            [class.border-gray-300]="metodoPago !== 'transferencia'"
+        >
+            <input type="radio" name="metodo" value="transferencia" class="hidden" [(ngModel)]="metodoPago" />
+            <img src="images/transferencia.webp" alt="Transferencia Bancaria" class="h-48 object-contain mb-2" />
+            <span class="font-medium">Transferencia bancaria</span>
+        </label>
+    </div>
+
+    <!-- Botón continuar -->
+    <button
+        class="mt-4 bg-red-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition hover:brightness-110 disabled:opacity-40"
+        [disabled]="!metodoPago"
+        (click)="continuar()"
+    >
+        Continuar
+    </button>
+</form>
+
+</div>

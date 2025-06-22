@@ -1,0 +1,26 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-bold">Todos los pedidos</h2>
+  <div *ngFor="let pedido of pedidos" class="p-4 border rounded shadow space-y-2">
+    <div class="flex justify-between items-center">
+      <div>
+        <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</p>
+        <p><strong>Email:</strong> {{ pedido.cliente.email }}</p>
+        <p><strong>Estado:</strong> <span [ngClass]="{
+          'text-yellow-600': pedido.estado === 'Pendiente',
+          'text-green-600': pedido.estado === 'Completado',
+          'text-red-600': pedido.estado === 'Anulado'
+        }">{{ pedido.estado }}</span></p>
+      </div>
+      <div class="text-right text-green-700 font-bold">
+        {{ pedido.totalFinal | currency:'ARS':'symbol' }}
+      </div>
+    </div>
+    <p><strong>Origen:</strong> {{ pedido.origen }} → <strong>Destino:</strong> {{ pedido.destino }}</p>
+    <p><strong>Descripción:</strong> {{ pedido.descripcion }}</p>
+
+    <div *ngIf="pedido.estado === 'Pendiente'" class="flex gap-4 pt-2">
+      <button class="bg-green-500 text-white px-4 py-1 rounded" (click)="entregarPedido(pedido.idPedido)">Confirmar</button>
+      <button class="bg-red-500 text-white px-4 py-1 rounded" (click)="anularPedido(pedido.idPedido)">Anular</button>
+    </div>
+  </div>
+</div>

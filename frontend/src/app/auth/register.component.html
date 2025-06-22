@@ -1,0 +1,84 @@
+<section class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Registrarse</h2>
+
+        <form #form="ngForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+            <div>
+                <label for="nombres" class="block text-sm font-medium text-gray-700">Nombre completo *</label>
+                <input
+                    type="text"
+                    id="nombres"
+                    name="nombres"
+                    [(ngModel)]="nombres"
+                    required
+                    #nombresRef="ngModel"
+                    class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div *ngIf="nombresRef.invalid && (nombresRef.dirty || nombresRef.touched)" class="text-red-600 text-sm mt-1">
+                    El nombre es obligatorio.
+                </div>
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico *</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    [(ngModel)]="email"
+                    required
+                    #emailRef="ngModel"
+                    class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)" class="text-red-600 text-sm mt-1">
+                    El correo electrónico es obligatorio y debe ser válido.
+                </div>
+            </div>
+
+            <div>
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    [(ngModel)]="telefono"
+                    #telefonoRef="ngModel"
+                    class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña *</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    required
+                    #passwordRef="ngModel"
+                    class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)" class="text-red-600 text-sm mt-1">
+                    La contraseña es obligatoria.
+                </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="text-red-600 text-sm">
+                {{ errorMessage }}
+            </div>
+
+            <button
+                type="submit"
+                [disabled]="form.invalid"
+                class="w-full bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                Crear cuenta
+            </button>
+        </form>
+
+        <p class="mt-4 text-center text-sm text-gray-500">
+            ¿Ya tenés cuenta?
+            <a routerLink="/login" class="text-blue-600 hover:underline">Iniciá sesión</a>
+        </p>
+    </div>
+</section>

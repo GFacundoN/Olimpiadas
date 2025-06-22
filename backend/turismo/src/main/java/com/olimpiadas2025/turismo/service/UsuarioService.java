@@ -18,12 +18,14 @@ public class UsuarioService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public Usuario register(Usuario usuario) {
-        Optional<Usuario> existing = usuarioRepository.findByEmail(usuario.getEmail());
-        if (existing.isPresent()) {
-            throw new AplicacionException("El correo electrónico ya está registrado. Por favor, utilice otro.");
+        // Verificar si ya existe un usuario con ese email
+        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+            throw new AplicacionException("El correo electrónico ya está registrado.");
         }
 
+        // Encriptar contraseña antes de guardar
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         return usuarioRepository.save(usuario);
     }
 

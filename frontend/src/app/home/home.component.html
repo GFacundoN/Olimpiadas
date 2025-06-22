@@ -1,0 +1,132 @@
+<section class="relative mb-24 w-3/4 flex m-auto pt-8">
+    <!-- Imagen de fondo -->
+    <img 
+        src="images/heroImage.webp" 
+        alt="Fondo de montañas" 
+        class="w-full h-[500px] object-cover rounded-3xl" 
+    />
+
+    <form (ngSubmit)="buscar()"
+        class="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 bg-[#f9f7f2] rounded-2xl shadow-md px-8 py-6 flex gap-6 items-center w-[90%] max-w-5xl "
+    >
+
+        <!-- Destino -->
+        <fieldset class="flex-1 flex items-start gap-2">
+            <span class="text-gray-500 mt-1">
+                <!-- Ícono de ubicación -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 13 16" fill="none">
+                    <path d="M6.29883 0C4.62888 0.00196598 3.0279 0.66484 1.84706 1.84321C0.666233 3.02159 0.00197678 4.61924 6.70131e-06 6.28571C-0.0019934 7.64756 0.443776 8.97245 1.26893 10.0571C1.26893 10.0571 1.44072 10.2829 1.46878 10.3154L6.29883 16L11.1312 10.3126C11.1564 10.2823 11.3287 10.0571 11.3287 10.0571L11.3293 10.0554C12.154 8.97121 12.5996 7.64693 12.5977 6.28571C12.5957 4.61924 11.9314 3.02159 10.7506 1.84321C9.56976 0.66484 7.96878 0.00196598 6.29883 0ZM6.29883 8.57143C5.84582 8.57143 5.40297 8.43737 5.02631 8.18622C4.64964 7.93506 4.35606 7.57808 4.1827 7.16042C4.00934 6.74276 3.96398 6.28318 4.05236 5.83979C4.14074 5.39641 4.35889 4.98913 4.67921 4.66947C4.99954 4.34981 5.40767 4.13211 5.85198 4.04392C6.29629 3.95572 6.75683 4.00099 7.17536 4.17399C7.59389 4.34699 7.95161 4.63996 8.20329 5.01584C8.45498 5.39172 8.58931 5.83364 8.58931 6.28571C8.58855 6.89169 8.34699 7.47263 7.91761 7.90112C7.48822 8.32961 6.90607 8.57067 6.29883 8.57143Z" fill="#7BBCB0"/>
+                </svg>
+            </span>
+            <label class="flex flex-col text-sm text-gray-700 w-full ">
+                <span class="text-gray-500 font-bold">Destino</span>
+                <select [(ngModel)]="filtro.destino" name="destino"
+                    class="appearance-none bg-transparent border-none outline-none ring-0 shadow-none italic text-gray-500 w-full cursor-pointer">
+                    <option value="">¿Dónde querés ir?</option>
+                    <option *ngFor="let destino of destinos" [value]="destino">{{ destino }}</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <!-- Personas -->
+        <fieldset class="flex-1 flex items-start gap-2">
+            <span class="text-gray-500 mt-1">
+                <!-- Ícono de personas -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="16" viewBox="0 0 23 16" fill="none">
+                    <path d="M16.2173 9.13C17.5788 10.06 18.5329 11.32 18.5329 13V16H22.5081V13C22.5081 10.82 18.9602 9.53 16.2173 9.13ZM14.5577 8C16.754 8 18.5329 6.21 18.5329 4C18.5329 1.79 16.754 0 14.5577 0C14.0906 0 13.6533 0.0999998 13.2359 0.24C14.0911 1.30422 14.5576 2.6314 14.5576 4C14.5576 5.3686 14.0911 6.69578 13.2359 7.76C13.6533 7.9 14.0906 8 14.5577 8ZM8.59484 8C10.7911 8 12.5701 6.21 12.5701 4C12.5701 1.79 10.7911 0 8.59484 0C6.39853 0 4.61962 1.79 4.61962 4C4.61962 6.21 6.39853 8 8.59484 8ZM8.59484 2C9.68802 2 10.5824 2.9 10.5824 4C10.5824 5.1 9.68802 6 8.59484 6C7.50166 6 6.60723 5.1 6.60723 4C6.60723 2.9 7.50166 2 8.59484 2ZM8.59484 9C5.94138 9 0.644409 10.34 0.644409 13V16H16.5453V13C16.5453 10.34 11.2483 9 8.59484 9ZM14.5577 14H2.63202V13.01C2.83078 12.29 5.91157 11 8.59484 11C11.2781 11 14.3589 12.29 14.5577 13V14Z" fill="#7BBCB0"/>
+                </svg>
+            </span>
+            <label class="flex flex-col text-sm text-gray-700 w-full">
+                <span class="text-gray-500 font-bold">Personas</span>
+                <select [(ngModel)]="filtro.personas" name="personas"
+                    class="appearance-none bg-transparent border-none outline-none ring-0 shadow-none italic text-gray-500 w-full cursor-pointer">
+                    <option value="">¿Cuántos huéspedes?</option>
+                    <option *ngFor="let cant of personas" [value]="cant">{{ cant }}</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <!-- Fecha -->
+        <fieldset class="flex-1 flex items-start gap-2">
+            <span class="text-gray-500 mt-1">
+                <!-- Ícono de calendario -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
+                    <path d="M3.4375 7.20013H5.04084V8.80013H3.4375V7.20013ZM3.4375 10.4001H5.04084V12.0001H3.4375V10.4001ZM6.64417 7.20013H8.24751V8.80013H6.64417V7.20013ZM6.64417 10.4001H8.24751V12.0001H6.64417V10.4001ZM9.85085 7.20013H11.4542V8.80013H9.85085V7.20013ZM9.85085 10.4001H11.4542V12.0001H9.85085V10.4001Z" fill="#7BBCB0"/>
+                    <path d="M1.83381 16H13.0572C13.9414 16 14.6605 15.2824 14.6605 14.4V3.2C14.6605 2.3176 13.9414 1.6 13.0572 1.6H11.4538V0H9.85049V1.6H5.04048V0H3.43714V1.6H1.83381C0.949565 1.6 0.230469 2.3176 0.230469 3.2V14.4C0.230469 15.2824 0.949565 16 1.83381 16ZM13.0572 4.8L13.058 14.4H1.83381V4.8H13.0572Z" fill="#7BBCB0"/>
+                </svg>
+            </span>
+            <label class="flex flex-col text-sm text-gray-700 w-full">
+                <span class="text-gray-500 font-bold">Fecha</span>
+                <select [(ngModel)]="filtro.fecha" name="fecha"
+                    class="appearance-none bg-transparent border-none outline-none ring-0 shadow-none italic text-gray-500 w-full cursor-pointer">
+                    <option value="">--/--/--</option>
+                    <option *ngFor="let fecha of fechas" [value]="fecha">{{ fecha }}</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <!-- Botón -->
+        <button type="submit"
+            class="bg-red-500 text-white font-bold px-10 py-3 rounded-full shadow-[0_8px_20px_rgba(255,0,0,0.3)] hover:bg-red-600 transition cursor-pointer">
+            Buscar
+        </button>
+
+    </form>
+</section>
+
+<section class="relative bg-cover bg-center bg-no-repeat" style="background-image: url('images/barilocheBackground.webp');">
+  <div class="bg-black/40 backdrop-blur-sm py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:flex lg:items-center lg:justify-between">
+      
+      <div class="relative w-full lg:w-1/2 mb-12 lg:mb-0 flex justify-center">
+        <div class="relative w-[300px] h-[300px] rounded-full overflow-hiddenshadow-lg">
+          <img src="images/barilocheDraw.webp" alt="Bariloche" class="w-full h-full object-cover" />
+        </div>
+      </div>
+
+      <!-- Texto -->
+      <div class="w-full lg:w-1/2 text-white">
+        <span class="inline-block bg-[#C4F1F9] text-gray-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+          EN TENDENCIA
+        </span>
+        <h2 class="text-4xl font-bold mb-4 text-white">Escapada a Bariloche</h2>
+        <div class="flex items-center text-sm text-white mb-4">
+          <svg class="w-4 h-4 text-[#FBBF24] mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.562-.955L10 0l2.95 5.955 6.562.955-4.756 4.635 1.122 6.545z"/></svg>
+          <span>4.8</span>
+          <span class="ml-2 text-white/70">(254 reseñas)</span>
+        </div>
+        <p class="text-white/90 mb-6">
+          Explorá la belleza natural de Bariloche entre lagos, montañas y bosques. Una experiencia inolvidable para los amantes de la aventura y la tranquilidad.
+        </p>
+        <button class="bg-[#EF4444] hover:bg-[#dc2626] text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 cursor-pointer " [routerLink]="['/catalogo/31']">
+          Comprar ahora
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-[#FAF9F6] py-16 px-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Encabezado -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+      <div class="mb-6 md:mb-0">
+        <h2 class="text-3xl font-bold text-[#3F3F3F]">Nuestra galería:</h2>
+        <p class="text-[#3F3F3F]/70 mt-2 max-w-3/4">
+          Estas son algunas capturas de los increíbles momentos que nuestros clientes experimentaron con nuestros paquetes turísticos a lo largo de nuestro hermoso país y alrededor del globo.
+        </p>
+      </div>
+    </div>
+
+    <!-- Galería de imágenes -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 ">
+      <img src="images/galeria (1).svg" alt="gallery image 1" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (2).svg" alt="gallery image 2" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (3).svg" alt="gallery image 3" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (4).svg" alt="gallery image 4" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (5).svg" alt="gallery image 5" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (6).svg" alt="gallery image 6" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (7).svg" alt="gallery image 7" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+      <img src="images/galeria (8).svg" alt="gallery image 8" class="rounded-lg object-cover aspect-square bg-[#FBBF24]/20" />
+    </div>
+  </div>
+</section>

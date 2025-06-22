@@ -1,0 +1,85 @@
+<header class="flex items-center justify-between bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
+  <!-- logo -->
+  <div class="flex items-center">
+    <img src="images/headerLogo.png" alt="E-Escapadas" class="h-8 w-auto" />
+  </div>
+
+  <!-- navbar -->
+  <nav class="hidden md:flex items-center space-x-8 [&>a]:text-gray-600 [&>a]:hover:text-gray-900 [&>a]:font-medium [&>a]:transition-colors"
+  >
+    <a routerLink="">Inicio</a>
+    <a routerLink="sobre">Sobre</a>
+    <!-- agregar componente y enlace después -->
+    <a routerLink="catalogo">Paquetes</a>
+    @if (userService.logged) { @if (!userService.admin) {
+      <a routerLink="carrito">Carrito</a>
+      <a routerLink="mis-compras">Mis compras</a>
+      } @else {
+        <a class="font-black" routerLink="pedidos">Pedidos</a>
+      }
+    }
+    <a routerLink="contacto">Contacto</a>
+    <!-- agregar componente y enlace después -->
+  </nav>
+
+  <!-- boton login-->
+  <div class="flex items-center">
+    @if (!userService.logged) {
+      <button
+        class="bg-red-500 hover:bg-red-600 text-white font-medium px-6 py-2 rounded-lg transition-colors cursor-pointer"
+        routerLink="login"
+      >
+        Iniciá sesión
+      </button>
+    } @else {
+      <button
+        class="bg-red-500 hover:bg-red-600 text-white font-medium px-6 py-2 rounded-lg transition-colors cursor-pointer"
+        routerLink=""
+        (click)="userService.logout()"
+      >
+        Salir
+      </button>
+    }
+  </div>
+</header>
+
+<main class=" min-h-dvh mx-auto bg-[#FAF9F6]"> <!-- 'min-h-dvh' temporal hasta que el contenido en todos las rutas complete la altura -->
+  <router-outlet />
+</main>
+
+<footer class="bg-[#1F2D3D] text-gray-300">
+  <div class="py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- contenido principal del footer centrado -->
+      <div class="flex flex-col items-center text-center">
+        <!-- logo centrado -->
+        <div class="mb-8">
+          <img
+            src="images/footerLogo.png"
+            alt="E-Escapadas"
+            class="h-12 w-auto mx-auto"
+          />
+        </div>
+
+        <!-- items del navbar centrados -->
+        <nav class="flex flex-wrap justify-center gap-8 md:gap-12 [&>a]:hover:text-white [&>a]:transition-colors [&>a]:font-medium">
+          <a routerLink="">Inicio</a>
+          <a routerLink="sobre">Sobre</a>
+          <a routerLink="catalogo">Paquetes</a>
+          <a routerLink="contacto">Contacto</a>
+          <a routerLink="login">Iniciar sesion</a>
+          <a routerLink="register">Registrarse</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- ccopyright -->
+  <div class="bg-[#1A252F] py-4">
+    <div class="max-w-6xl mx-auto px-6">
+      <p class="text-center text-gray-400 text-sm">
+        © Copyright 2025 E-Escapadas. Todos los derechos reservados.
+      </p>
+    </div>
+  </div>
+</footer>

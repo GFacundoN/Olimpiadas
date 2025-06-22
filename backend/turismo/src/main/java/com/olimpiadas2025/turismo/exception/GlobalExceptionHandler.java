@@ -12,9 +12,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
+
     @ExceptionHandler(AplicacionException.class)
-    public ResponseEntity<Object> handleAplicacionException(AplicacionException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> handleAplicacionException(AplicacionException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("mensaje", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
     }
 
     @ExceptionHandler(Exception.class)

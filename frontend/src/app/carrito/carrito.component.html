@@ -1,0 +1,27 @@
+<section *ngIf="paquetes.size > 0" class="flex flex-col gap-5 w-3/4 m-auto" >
+  <ng-container *ngFor="let paquete of paquetesArray">
+    <app-item
+        [id]="paquete.idPaquete"
+        [nombre]="paquete.destino"
+        [precio]="paquete.precio"
+        (eliminado)="actualizarTotal($event)"
+    />
+
+  </ng-container>
+</section>
+
+<div *ngIf="paquetes.size > 0" class="flex items-center justify-between mt-6 gap-4 w-3/4 m-auto">
+  <h3 class="text-xl font-semibold">Total a pagar: {{ total | currency:'ARS' }}</h3>
+
+  <button
+    class="bg-red-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 cursor-pointer transition"
+    routerLink="../checkout"
+    (click)="checkout.getPaquetes(paquetes)"
+  >
+    Comprar ahora
+  </button>
+</div>
+
+<p *ngIf="paquetes.size === 0" class="text-gray-500 italic text-center mt-10">
+  No hay items para mostrar
+</p>

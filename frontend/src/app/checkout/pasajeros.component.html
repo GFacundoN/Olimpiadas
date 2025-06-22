@@ -1,0 +1,87 @@
+<div class="w-3/4 m-auto p-8">
+    <h4 class="text-xl font-semibold mb-4">Datos de los pasajeros</h4>
+
+<form
+    #formulario="ngForm"
+    (ngSubmit)="guardarPasajero(formulario)"
+    class="flex flex-col gap-4 bg-gray-50 p-6 rounded-xl shadow-md"
+    [ngClass]="{ 'opacity-50': !formulario.valid }"
+>
+    <input
+        type="text"
+        name="nombre"
+        id="nombre"
+        placeholder="Nombre"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    />
+
+    <input
+        type="text"
+        name="apellido"
+        id="apellido"
+        placeholder="Apellido"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    />
+
+    <label for="tipo" class="font-medium">Tipo y N° de documento</label>
+    <select
+        name="tipo"
+        id="tipo"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    >
+        <option value="" disabled selected hidden>Seleccionar tipo</option>
+        <option value="DNI">DNI</option>
+        <option value="Pasaporte">Pasaporte</option>
+    </select>
+
+    <input
+        type="text"
+        name="documento"
+        id="documento"
+        placeholder="Número de documento"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    />
+
+    <label for="residencia" class="font-medium">Residencia</label>
+    <input
+        type="text"
+        name="residencia"
+        id="residencia"
+        placeholder="Calle 123, Dpto. 2, Localidad, Ciudad, Provincia"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    />
+
+    <label for="nacionalidad" class="font-medium">Nacionalidad</label>
+    <select
+        name="nacionalidad"
+        id="nacionalidad"
+        class="p-3 rounded-md shadow-sm border border-gray-300"
+        required
+        ngModel
+    >
+        <option value="" disabled selected hidden>Seleccionar</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Chile">Chile</option>
+        <option value="Uruguay">Uruguay</option>
+    </select>
+
+    <button
+        type="submit"
+        class="mt-4 bg-red-500 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition hover:bg-red-600 disabled:opacity-40 cursor-pointer"
+        [disabled]="!formulario.valid"
+    >
+        Continuar
+    </button>
+</form>
+
+</div>
