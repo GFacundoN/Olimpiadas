@@ -32,10 +32,7 @@ Esto creará automáticamente las tablas con su estructura y registros base.
 El script incluye un usuario jefe de ventas:
 
 - **Usuario**: `jefe@empresa.com`
-- **Contraseña**: `se encuentra encriptada (bcrypt)`  
-  *(Debe coincidir con la configuración del backend para autenticación)*
-
-> ⚠️ Nota: Si necesitás registrar más paquetes o pedidos de prueba, podés hacerlo desde la app o cargarlos directamente en la base.
+- **Contraseña**: `Jefecontraseña1234.`  
 
 ---
 
@@ -43,8 +40,5 @@ El script incluye un usuario jefe de ventas:
 
 - MySQL o MariaDB
 - phpMyAdmin o equivalente
-- Codificación: `utf8mb4`
 
 ---
-
-Cualquier duda sobre la estructura o carga de datos, consultar con el equipo de backend.
